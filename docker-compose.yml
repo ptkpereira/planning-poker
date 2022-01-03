@@ -1,0 +1,35 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    container_name: planningpoker-db
+    environment:
+      POSTGRES_USER: planningpoker
+      POSTGRES_PASSWORD: planningpoker
+    ports:
+      - 5432:5432
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=development
+    environment:
+      - PORT=3000
+      - DB_HOST=planningpoker-db
+      - DB_PORT=5432
+      - DB_USERNAME=planningpoker
+      - DB_PASSWORD=planningpoker
+      - DB_DATABASE=planningpoker
+      - JWT_SECRET=hBZevRa1w0mehny04LqgOzT5SdFnI3x92AZK/GLlMPc=
+    container_name: planningpoker-api
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - db
+    command: npm run start:dev
