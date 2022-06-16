@@ -1,7 +1,16 @@
-import { ConnectionOptions } from 'typeorm';
+import { DataSourceOptions } from 'typeorm';
 import 'dotenv/config';
 
-const config: ConnectionOptions = {
+const typeOrmExtra =
+  process.env.NODE_ENV === 'development'
+    ? null
+    : {
+        ssl: {
+          rejectUnauthorized: true,
+        },
+      };
+
+const config: DataSourceOptions = {
   type: 'postgres',
   host: process.env.DB_HOST,
   port: +process.env.DB_PORT,
@@ -10,11 +19,9 @@ const config: ConnectionOptions = {
   database: process.env.DB_DATABASE,
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
-  cli: {
-    migrationsDir: 'src/migrations',
-  },
   synchronize: false,
   migrationsRun: true,
+  extra: typeOrmExtra,
 };
 
 export = config;

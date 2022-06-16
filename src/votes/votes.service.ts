@@ -64,7 +64,7 @@ export class VotesService {
   }
 
   async update(id: string, updateVoteDto: UpdateVoteDto) {
-    const vote = await this.votesRepository.findOne(id);
+    const vote = await this.votesRepository.findOne({ where: { id } });
 
     this.votesRepository.merge(vote, updateVoteDto);
     return await this.votesRepository.save(vote);

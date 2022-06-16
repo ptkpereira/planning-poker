@@ -67,14 +67,14 @@ export class UsersService {
 
   async findOneByEmail(email: string) {
     try {
-      return await this.usersRepository.findOneOrFail({ email });
+      return await this.usersRepository.findOneOrFail({ where: { email } });
     } catch (error) {
       throw new NotFoundException(error.message);
     }
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    const user = await this.usersRepository.findOne(id);
+    const user = await this.usersRepository.findOne({ where: { id } });
 
     this.usersRepository.merge(user, updateUserDto);
     return await this.usersRepository.save(user);

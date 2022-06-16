@@ -51,7 +51,7 @@ export class StoriesService {
   }
 
   async update(id: string, updateStoryDto: UpdateStoryDto) {
-    const story = await this.storiesRepository.findOne(id);
+    const story = await this.storiesRepository.findOne({ where: { id } });
 
     this.storiesRepository.merge(story, updateStoryDto);
     return await this.storiesRepository.save(story);

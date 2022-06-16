@@ -50,7 +50,7 @@ export class CardsService {
   }
 
   async update(id: string, updateCardDto: UpdateCardDto) {
-    const card = await this.cardsRepository.findOne(id);
+    const card = await this.cardsRepository.findOne({ where: { id } });
 
     this.cardsRepository.merge(card, updateCardDto);
     return await this.cardsRepository.save(card);
